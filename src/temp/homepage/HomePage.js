@@ -1,17 +1,40 @@
 import { useEffect, useState } from "react";
 import "./HomePage.css";
 
+function SingleUserList({ user, onDelete }) {
+	return (
+		<li className="user-list" key={user.id}>
+			<div className="user-list-single">
+				<div className="circle-avatar">
+					<img src={user.avatar} alt={`Avatar of ${user.first_name}`} />
+				</div>
+
+				<div className="list-propeties">
+					<p>
+						{user.first_name} {user.last_name} {user.id}
+					</p>
+
+					<p className="text-email">{user.email}</p>
+				</div>
+			</div>
+
+			<div className="btn-delete">
+				<button onCanPlay={() => onDelete(user.id)}>Delete</button>
+			</div>
+		</li>
+	);
+}
+
 function HomePage() {
-	const [data, setData] = useState([]);
+	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		fetch("https://reqres.in/api/users?page=2")
 			.then((resp) => resp.json())
 			.then((data) => {
-				setData(data);
+				setUsers(data.data);
 				setLoading(false);
-				// console.log(data);
 			})
 			.catch((error) => {
 				console.error("Error fecth data: ", error);
@@ -45,30 +68,20 @@ function HomePage() {
 			<div className="body">
 				<div className="body-wrapper-outer">
 					<div className="body-wrapper-inner">
-						{data && data.data ? (
-							data.data.map((item) => (
-								<li className="user-list" key={item.id}>
-									<div className="user-list-single">
-										<div className="circle-avatar">
-											<img src={item.avatar} alt="Avatar of reqres img" />
-										</div>
-										<div className="list-propeties">
-											<p>
-												{item.first_name} {item.last_name} {item.id}
-											</p>
-											<p className="text-email">{item.email}</p>
-										</div>
-									</div>
-
-									<div>
-										<button onClick={() => handleDelete({ userid: item.id })}>
-											Delete
-										</button>
-									</div>
-								</li>
-							))
+						{loading ? (
+							<p>Loading ...</p>
+						) : users.length > 0 ? (
+							<ul>
+								{users.map((user) => (
+									<SingleUserList
+										key={user.id}
+										user={user}
+										onDelete={handleDelete}
+									/>
+								))}
+							</ul>
 						) : (
-							<p>data not available</p>
+							<p>No User found</p>
 						)}
 					</div>
 				</div>
