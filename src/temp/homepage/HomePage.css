@@ -1,0 +1,58 @@
+.body {
+	width: 100vw;
+	height: 100vh;
+	background-color: #e0bbe4;
+	padding: 3rem 0;
+}
+
+.body-wrapper-outer {
+	padding: 0 3rem;
+}
+
+.body-wrapper-inner {
+	background-color: #fdfffc;
+	border-radius: 20px;
+	padding: 1rem 2rem;
+}
+
+.user-list {
+	list-style-type: none;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 0;
+}
+
+.user-list-single {
+	display: flex;
+}
+
+.circle-avatar {
+	border-radius: 50%;
+	overflow: hidden;
+	width: 60px;
+	height: 60px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.circle-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: 50%;
+}
+
+.list-propeties {
+	padding: 1rem;
+}
+
+.list-propeties p {
+	margin: 0;
+}
+
+.text-email {
+	font-style: italic;
+	font-weight: 300;
+}
