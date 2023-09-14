@@ -15,6 +15,10 @@
 	padding: 1rem 2rem;
 }
 
+.body-wrapper-inner h1 {
+	padding: 0 3rem;
+}
+
 .user-list {
 	list-style-type: none;
 	display: flex;
@@ -72,5 +76,22 @@
 }
 
 .btn-delete button:hover {
+	background-color: #e0bbe4;
+}
+
+.btn-edit-page {
+	padding: 0 3rem;
+}
+
+.btn-edit-page button {
+	padding: 8px 16px;
+	background-color: #e74c3c;
+	color: white;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+
+.btn-edit-page button:hover {
 	background-color: #e0bbe4;
 }

@@ -68,6 +68,7 @@ function HomePage() {
 			<div className="body">
 				<div className="body-wrapper-outer">
 					<div className="body-wrapper-inner">
+						<h1>List Users</h1>
 						{loading ? (
 							<p>Loading ...</p>
 						) : users.length > 0 ? (
@@ -83,6 +84,19 @@ function HomePage() {
 						) : (
 							<p>No User found</p>
 						)}
+					</div>
+				</div>
+
+				<br />
+
+				<div className="body-wrapper-outer">
+					<div className="body-wrapper-inner">
+						<h1>Go to edit page</h1>
+						<div className="btn-edit-page">
+							<button onClick={() => (window.location.href = "/edit")}>
+								Edit Page
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
