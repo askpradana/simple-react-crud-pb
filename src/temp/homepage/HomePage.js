@@ -11,7 +11,7 @@ function SingleUserList({ user, onDelete }) {
 
 				<div className="list-propeties">
 					<p>
-						{user.first_name} {user.last_name} {user.id}
+						{user.first_name} {user.last_name} ID: {user.id}
 					</p>
 
 					<p className="text-email">{user.email}</p>
@@ -19,7 +19,7 @@ function SingleUserList({ user, onDelete }) {
 			</div>
 
 			<div className="btn-delete">
-				<button onCanPlay={() => onDelete(user.id)}>Delete</button>
+				<button onClick={() => onDelete(user)}>Delete</button>
 			</div>
 		</li>
 	);
@@ -42,15 +42,15 @@ function HomePage() {
 			});
 	}, []);
 
-	const handleDelete = ({ userid }) => {
-		fetch(`https://reqres.in/api/users/${userid}`, {
+	const handleDelete = (user) => {
+		fetch(`https://reqres.in/api/users/${user.id}`, {
 			method: "DELETE",
 		})
 			.then((response) => {
 				if (response.ok) {
 					console.log(
 						"Success delete user with ID: " +
-							userid +
+							user.id +
 							", with response status: ",
 						response.status
 					);

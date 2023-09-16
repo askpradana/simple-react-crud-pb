@@ -1,11 +1,26 @@
 import { useState } from "react";
 import "./LoginPage.css";
 
-function FormLogin({ formData, handleInputChange, handleSubmit }) {
+function FormLogin({ onSubmit }) {
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+	});
+
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
 	return (
 		<div className="body-form-outer">
 			<p>Login</p>
-			<form onSubmit={handleSubmit} className="body-form-inner">
+			<form
+				onSubmit={(event) => onSubmit(event, formData)}
+				className="body-form-inner"
+			>
 				<input
 					type="email"
 					id="email"
@@ -24,7 +39,7 @@ function FormLogin({ formData, handleInputChange, handleSubmit }) {
 					placeholder="Password"
 					required
 				/>
-				<br />
+				<div className="blank-space" />
 				<div className="btn-form-submit">
 					<button type="submit">Login</button>
 				</div>
@@ -34,20 +49,7 @@ function FormLogin({ formData, handleInputChange, handleSubmit }) {
 }
 
 function LoginPage() {
-	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
-	});
-
-	const handleInputChange = (event) => {
-		const { name, value } = event.target;
-		setFormData({
-			...formData,
-			[name]: value,
-		});
-	};
-
-	const handleSubmit = async (event) => {
+	const handleSubmit = async (event, formData) => {
 		event.preventDefault();
 
 		try {
@@ -73,11 +75,7 @@ function LoginPage() {
 			<div className="body-login-page-outer">
 				<div className="body-login-page-inner">
 					<div className="body-login-left">
-						<FormLogin
-							formData={formData}
-							handleInputChange={handleInputChange}
-							handleSubmit={handleSubmit}
-						/>
+						<FormLogin onSubmit={handleSubmit} />
 					</div>
 					<div className="body-login-right">
 						<img

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import "./EditPage.css";
 
-function EditPage() {
+function FormEditPage({ handleSubmit }) {
 	const initFormData = { name: "", job: "" };
 
 	const [formData, setFormData] = useState(initFormData);
-	const [updatedAtString, setUpdatedAtString] = useState("");
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -15,7 +14,42 @@ function EditPage() {
 		});
 	};
 
-	const handleSubmit = async (event) => {
+	return (
+		<form onSubmit={handleSubmit}>
+			<div className="form-wrapper">
+				<div className="form-single">
+					<label>Name</label>
+					<input
+						type="text"
+						name="name"
+						placeholder="Edit Name"
+						value={formData.name}
+						onChange={handleInputChange}
+						required
+					/>
+				</div>
+				<div className="form-single">
+					<label>Job</label>
+					<input
+						type="text"
+						name="job"
+						placeholder="Edit Job"
+						value={formData.job}
+						onChange={handleInputChange}
+					/>
+				</div>
+				<div className="form-btn">
+					<button type="submit">Submit</button>
+				</div>
+			</div>
+		</form>
+	);
+}
+
+function EditPage() {
+	const [updatedAtString, setUpdatedAtString] = useState("");
+
+	const handleSubmit = async (event, formData) => {
 		event.preventDefault();
 		try {
 			const response = await fetch("https://reqres.in/api/users/2", {
@@ -41,35 +75,12 @@ function EditPage() {
 	return (
 		<div className="body-edit-page">
 			<div className="body-edit-page-wrapper">
-				<form onSubmit={handleSubmit}>
-					<div className="form-wrapper">
-						<div className="form-single">
-							<label>Name</label>
-							<input
-								type="text"
-								name="name"
-								placeholder="Edit Name"
-								value={formData.name}
-								onChange={handleInputChange}
-								required
-							/>
-						</div>
-						<div className="form-single">
-							<label>Job</label>
-							<input
-								type="text"
-								name="job"
-								placeholder="Edit Job"
-								value={formData.job}
-								onChange={handleInputChange}
-							/>
-						</div>
-						<div className="form-btn">
-							<button type="submit">Submit</button>
-						</div>
-					</div>
-				</form>
-				{updatedAtString ? <p>Updated at : {updatedAtString}</p> : ""}
+				<FormEditPage handleSubmit={handleSubmit} />
+				{updatedAtString ? (
+					<p>PUT Method success | Updated at : {updatedAtString}</p>
+				) : (
+					""
+				)}
 			</div>
 		</div>
 	);

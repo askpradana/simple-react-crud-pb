@@ -67,3 +67,7 @@
 	background-color: #e74c3c;
 	cursor: pointer;
 }
+
+.blank-space {
+	height: 16px;
+}
