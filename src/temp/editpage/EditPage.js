@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./EditPage.css";
+import { useLocation } from "react-router-dom";
 
-function FormEditPage({ handleSubmit }) {
-	const initFormData = { name: "", job: "" };
-
-	const [formData, setFormData] = useState(initFormData);
+function FormEditPage({ handleSubmit, initialFormData }) {
+	const [formData, setFormData] = useState(initialFormData);
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -29,13 +28,25 @@ function FormEditPage({ handleSubmit }) {
 					/>
 				</div>
 				<div className="form-single">
-					<label>Job</label>
+					<label>Age</label>
 					<input
 						type="text"
-						name="job"
-						placeholder="Edit Job"
-						value={formData.job}
+						name="age"
+						placeholder="Edit Age"
+						value={formData.age}
 						onChange={handleInputChange}
+						required
+					/>
+				</div>
+				<div className="form-single">
+					<label>Email</label>
+					<input
+						type="text"
+						name="email"
+						placeholder="Edit email"
+						value={formData.email}
+						onChange={handleInputChange}
+						required
 					/>
 				</div>
 				<div className="form-btn">
@@ -48,6 +59,14 @@ function FormEditPage({ handleSubmit }) {
 
 function EditPage() {
 	const [updatedAtString, setUpdatedAtString] = useState("");
+	const propsParam = useLocation();
+	const user = propsParam.state?.user;
+
+	const initialFormData = {
+		name: user?.name || "",
+		age: user?.age || "",
+		email: user?.email || "",
+	};
 
 	const handleSubmit = async (event, formData) => {
 		event.preventDefault();
@@ -72,10 +91,18 @@ function EditPage() {
 			console.error("Error occured: ", error);
 		}
 	};
+
+	if (!user) {
+		return <p>User not found.</p>;
+	}
+
 	return (
 		<div className="body-edit-page">
 			<div className="body-edit-page-wrapper">
-				<FormEditPage handleSubmit={handleSubmit} />
+				<FormEditPage
+					handleSubmit={handleSubmit}
+					initialFormData={initialFormData}
+				/>
 				{updatedAtString ? (
 					<p>PUT Method success | Updated at : {updatedAtString}</p>
 				) : (

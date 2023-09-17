@@ -1,4 +1,12 @@
+import { useNavigate } from "react-router-dom";
+
 function SingleUserList({ user, onDelete, baseUrlImg }) {
+	const navigate = useNavigate();
+
+	const handleEditClick = () => {
+		navigate("/edit", { state: { user } });
+	};
+
 	return (
 		<li className="user-list" key={user.id}>
 			<div className="user-list-single">
@@ -20,9 +28,7 @@ function SingleUserList({ user, onDelete, baseUrlImg }) {
 
 			<div className="btn-class">
 				<div className="btn-edit-delete">
-					<button onClick={() => (window.location.href = "/edit")}>
-						Edit Page
-					</button>
+					<button onClick={handleEditClick}>Edit Page</button>
 				</div>
 
 				<div className="btn-edit-delete">
