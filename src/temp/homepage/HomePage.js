@@ -10,7 +10,7 @@ function HomePage() {
 	const [loading, setLoading] = useState(true);
 	const [deleteSuccess, setDeleteSuccess] = useState(false);
 
-	useEffect(() => {
+	const fetchData = () => {
 		fetch(baseUrlJson)
 			.then((resp) => resp.json())
 			.then((data) => {
@@ -21,24 +21,11 @@ function HomePage() {
 				console.error("Error fecth data: ", error);
 				setLoading(false);
 			});
-	}, []);
+	};
 
 	useEffect(() => {
-		fetch(baseUrlJson)
-			.then((resp) => resp.json())
-			.then((data) => {
-				setUsers(data.items); // Update the users
-				setLoading(false);
-			})
-			.catch((error) => {
-				console.error("Error fetching updated data: ", error);
-				setLoading(false);
-			});
-
-		setTimeout(() => {
-			setDeleteSuccess(false);
-		}, 3000); // Hide after 3 sec
-	}, [deleteSuccess]);
+		fetchData();
+	}, []);
 
 	const handleDelete = (user) => {
 		fetch(`${baseUrlJson}/${user.id}`, {
@@ -53,6 +40,11 @@ function HomePage() {
 						response.status
 					);
 					setDeleteSuccess(true);
+					fetchData();
+
+					setTimeout(() => {
+						setDeleteSuccess(false);
+					}, 2000);
 				}
 			})
 			.catch((error) => {
