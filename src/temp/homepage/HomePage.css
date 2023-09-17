@@ -61,12 +61,13 @@
 	font-weight: 300;
 }
 
-.btn-delete {
+.btn-edit-delete {
 	text-align: center;
 	margin-top: 10px;
+	padding: 0 4px;
 }
 
-.btn-delete button {
+.btn-edit-delete button {
 	padding: 8px 16px;
 	background-color: #e74c3c;
 	color: white;
@@ -75,23 +76,10 @@
 	cursor: pointer;
 }
 
-.btn-delete button:hover {
+.btn-edit-delete button:hover {
 	background-color: #e0bbe4;
 }
 
-.btn-edit-page {
-	padding: 0 3rem;
-}
-
-.btn-edit-page button {
-	padding: 8px 16px;
-	background-color: #e74c3c;
-	color: white;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-.btn-edit-page button:hover {
-	background-color: #e0bbe4;
+.btn-class {
+	display: flex;
 }

@@ -1,39 +1,20 @@
 import { useEffect, useState } from "react";
 import "./HomePage.css";
+import SingleUserList from "./UserList";
 
-function SingleUserList({ user, onDelete }) {
-	return (
-		<li className="user-list" key={user.id}>
-			<div className="user-list-single">
-				<div className="circle-avatar">
-					<img src={user.avatar} alt={`Avatar of ${user.first_name}`} />
-				</div>
-
-				<div className="list-propeties">
-					<p>
-						{user.first_name} {user.last_name} ID: {user.id}
-					</p>
-
-					<p className="text-email">{user.email}</p>
-				</div>
-			</div>
-
-			<div className="btn-delete">
-				<button onClick={() => onDelete(user)}>Delete</button>
-			</div>
-		</li>
-	);
-}
+const baseUrlImg = "http://127.0.0.1:8090/api/files/list_user/"; // + USER ID + FILENAME
+const baseUrlJson = "http://127.0.0.1:8090/api/collections/list_user/records";
 
 function HomePage() {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [deleteSuccess, setDeleteSuccess] = useState(false);
 
 	useEffect(() => {
-		fetch("https://reqres.in/api/users?page=2")
+		fetch(baseUrlJson)
 			.then((resp) => resp.json())
 			.then((data) => {
-				setUsers(data.data);
+				setUsers(data.items);
 				setLoading(false);
 			})
 			.catch((error) => {
@@ -42,8 +23,25 @@ function HomePage() {
 			});
 	}, []);
 
+	useEffect(() => {
+		fetch(baseUrlJson)
+			.then((resp) => resp.json())
+			.then((data) => {
+				setUsers(data.items); // Update the users
+				setLoading(false);
+			})
+			.catch((error) => {
+				console.error("Error fetching updated data: ", error);
+				setLoading(false);
+			});
+
+		setTimeout(() => {
+			setDeleteSuccess(false);
+		}, 3000); // Hide after 3 sec
+	}, [deleteSuccess]);
+
 	const handleDelete = (user) => {
-		fetch(`https://reqres.in/api/users/${user.id}`, {
+		fetch(`${baseUrlJson}/${user.id}`, {
 			method: "DELETE",
 		})
 			.then((response) => {
@@ -54,6 +52,7 @@ function HomePage() {
 							", with response status: ",
 						response.status
 					);
+					setDeleteSuccess(true);
 				}
 			})
 			.catch((error) => {
@@ -78,25 +77,19 @@ function HomePage() {
 										key={user.id}
 										user={user}
 										onDelete={handleDelete}
+										baseUrlImg={baseUrlImg}
 									/>
 								))}
 							</ul>
 						) : (
 							<p>No User found</p>
 						)}
-					</div>
-				</div>
 
-				<br />
-
-				<div className="body-wrapper-outer">
-					<div className="body-wrapper-inner">
-						<h1>Go to edit page</h1>
-						<div className="btn-edit-page">
-							<button onClick={() => (window.location.href = "/edit")}>
-								Edit Page
-							</button>
-						</div>
+						{deleteSuccess && (
+							<div className="alert alert-success" role="alert">
+								User deleted successfully.
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
