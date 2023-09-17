@@ -77,11 +77,7 @@ function HomePage() {
 							<p>No User found</p>
 						)}
 
-						{deleteSuccess && (
-							<div className="alert alert-success" role="alert">
-								User deleted successfully.
-							</div>
-						)}
+						{deleteSuccess && <div>User deleted successfully.</div>}
 					</div>
 				</div>
 			</div>
