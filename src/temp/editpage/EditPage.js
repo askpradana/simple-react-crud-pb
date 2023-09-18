@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./EditPage.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+
+const baseUrl = "http://127.0.0.1:8090/api/collections/list_user/records/";
 
 function FormEditPage({ handleSubmit, initialFormData }) {
 	const [formData, setFormData] = useState(initialFormData);
@@ -14,7 +16,7 @@ function FormEditPage({ handleSubmit, initialFormData }) {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form onSubmit={(event) => handleSubmit(event, formData)}>
 			<div className="form-wrapper">
 				<div className="form-single">
 					<label>Name</label>
@@ -58,9 +60,9 @@ function FormEditPage({ handleSubmit, initialFormData }) {
 }
 
 function EditPage() {
-	const [updatedAtString, setUpdatedAtString] = useState("");
 	const propsParam = useLocation();
 	const user = propsParam.state?.user;
+	const navigate = useNavigate();
 
 	const initialFormData = {
 		name: user?.name || "",
@@ -70,20 +72,20 @@ function EditPage() {
 
 	const handleSubmit = async (event, formData) => {
 		event.preventDefault();
+
 		try {
-			const response = await fetch("https://reqres.in/api/users/2", {
-				method: "PUT",
+			const response = await fetch(`${baseUrl}${user.id}`, {
+				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify(formData),
 			});
+			console.log(`response: ${response.body}`);
 			if (response.ok) {
 				const resp = await response.json();
-				const updatedAt = new Date(resp.updatedAt);
-				const updatedAtString = updatedAt.toLocaleString();
-				setUpdatedAtString(updatedAtString);
 				console.log(resp);
+				navigate(-1);
 			} else {
 				console.error("PUT Request failed: ", response);
 			}
@@ -103,11 +105,6 @@ function EditPage() {
 					handleSubmit={handleSubmit}
 					initialFormData={initialFormData}
 				/>
-				{updatedAtString ? (
-					<p>PUT Method success | Updated at : {updatedAtString}</p>
-				) : (
-					""
-				)}
 			</div>
 		</div>
 	);
