@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./HomePage.css";
 import SingleUserList from "./UserList";
+import AddUserPage from "../adduserpage/Adduser";
 
 const baseUrlImg = "http://127.0.0.1:8090/api/files/list_user/"; // + USER ID + FILENAME
 const baseUrlJson = "http://127.0.0.1:8090/api/collections/list_user/records";
@@ -78,6 +79,14 @@ function HomePage() {
 						)}
 
 						{deleteSuccess && <div>User deleted successfully.</div>}
+					</div>
+				</div>
+
+				<br />
+
+				<div className="body-wrapper-outer">
+					<div className="body-wrapper-inner">
+						<AddUserPage fetchData={fetchData} />
 					</div>
 				</div>
 			</div>
